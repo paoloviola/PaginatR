@@ -1,0 +1,65 @@
+name: Build and Publish Libraries
+
+on:
+  push:
+    tags: [ "*" ]
+
+permissions: write-all
+
+jobs:
+  gitversion:
+    runs-on: ubuntu-latest
+    outputs:
+      assemblySemVer: ${{ steps.gitversion.outputs.assemblySemVer }}
+
+    steps:
+    - uses: actions/checkout@v3
+      with:
+        fetch-depth: 0
+    - uses: gittools/actions/gitversion/setup@v0.9.7
+      with:
+        versionSpec: '5.x'
+    - uses: gittools/actions/gitversion/execute@v0.9.7
+      id: gitversion
+      with:
+        useConfigFile: true
+        configFilePath: .github/gitversion.yml
+
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v3
+    - uses: actions/setup-dotnet@v3.0.3
+      with:
+        dotnet-version: 6.x
+
+    - run: |
+        for file in $(find -regextype egrep -regex ".*/.*\.csproj"); do
+          dotnet restore $file
+          dotnet build $file --no-restore --configuration Release --verbosity normal
+          dotnet test $file --no-restore --configuration Release --verbosity normal
+        done
+
+  publish:
+    runs-on: ubuntu-latest
+    needs: [ gitversion, build ]
+    env:
+      GITVERSION_ASSEMBLYSEMVER: ${{ needs.gitversion.outputs.assemblySemVer }}
+    
+    steps:
+    - uses: actions/checkout@v3
+    - uses: actions/setup-dotnet@v3.0.3
+      with:
+        dotnet-version: 6.x
+        
+    - run: dotnet nuget add source --username ${{ github.repository_owner }} --password ${{ secrets.GITHUB_TOKEN }} --name github --store-password-in-clear-text https://nuget.pkg.github.com/${{ github.repository_owner }}/index.json
+
+    - run: |
+        for file in $(find -regextype egrep -regex ".*/.*\.csproj"); do
+          dotnet restore $file
+          dotnet build $file --no-restore --configuration Release --verbosity normal
+          dotnet pack $file --no-restore --configuration Release --verbosity normal /p:Version=${GITVERSION_ASSEMBLYSEMVER}
+        done
+
+    - run: dotnet nuget push **/*.nupkg --source github

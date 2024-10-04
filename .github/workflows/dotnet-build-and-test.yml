@@ -1,0 +1,22 @@
+name: Build and Test .NET Libraries
+
+on:
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v3
+    - uses: actions/setup-dotnet@v3.0.3
+      with:
+        dotnet-version: 6.x
+
+    - run: |
+        for file in $(find -regextype egrep -regex ".*/.*\.csproj"); do
+          dotnet restore $file
+          dotnet build $file --no-restore --configuration Release --verbosity normal
+          dotnet test $file --no-restore --configuration Release --verbosity normal
+        done
