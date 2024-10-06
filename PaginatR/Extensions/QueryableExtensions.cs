@@ -7,7 +7,7 @@ using PaginatR.Models;
 
 namespace PaginatR.Extensions
 {
-    internal static class QueryableExtensions
+    public static class QueryableExtensions
     {
         public static PageResultModel<TModel> ApplyPageRequest<TModel>(this IQueryable<TModel> queryable, PageRequestModel<TModel> pageRequest)
         {
