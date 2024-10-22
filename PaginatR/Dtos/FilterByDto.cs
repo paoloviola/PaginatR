@@ -1,4 +1,5 @@
-﻿using PaginatR.Enums;
+﻿using PaginatR.Converters;
+using PaginatR.Enums;
 using System.Text.Json.Serialization;
 
 namespace PaginatR.Dtos
@@ -9,6 +10,7 @@ namespace PaginatR.Dtos
 
         public FilterOperation Operation { get; set; }
 
+        [JsonConverter(typeof(ObjectToPrimitiveConverter))]
         public object? Value { get; set; }
 
         [JsonConstructor]
