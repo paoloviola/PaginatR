@@ -1,9 +1,9 @@
 ﻿using PaginatR.Dtos;
 using PaginatR.Models;
 
-namespace PaginatR.Adapters
+namespace PaginatR.Adapters.PageRequest
 {
-    public interface IPageRequestAdapter
+    public interface IPageRequestDtoToModelAdapter
     {
         PageRequestModel<TModel> ConvertToModel<TModel>(PageRequestDto pageRequest);
     }

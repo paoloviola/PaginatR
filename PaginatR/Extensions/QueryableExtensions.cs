@@ -36,7 +36,7 @@ namespace PaginatR.Extensions
                 {
                     OrderDirection.Ascending => queryable.OrderBy(ordering.Property),
                     OrderDirection.Descending => queryable.OrderByDescending(ordering.Property),
-                    _ => throw new NotSupportedException()
+                    _ => throw new InvalidOperationException()
                 };
             }
             return queryable;
