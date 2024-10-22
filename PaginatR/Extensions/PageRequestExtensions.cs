@@ -1,30 +1,44 @@
 ﻿using PaginatR.Dtos;
 using PaginatR.Models;
 using Remote.Linq;
+using Remote.Linq.Text.Json;
 using System.Linq;
+using System.Text.Json;
 
 namespace PaginatR.Extensions
 {
     public static class PageRequestExtensions
     {
-        public static PageRequestDto MapToDto<TModel>(this PageRequestModel<TModel> request)
+        public static PageRequestDto MapToDto<TModel>(this PageRequestModel<TModel> pageRequest)
         {
             return new PageRequestDto(
-                request.Filters.Select(filter => filter.ToRemoteLinqExpression()),
-                request.Orderings.Select(ordering => ordering.MapToDto()),
-                request.PageNumber,
-                request.PageSize
+                pageRequest.Filters.Select(filter => filter.ToRemoteLinqExpression()),
+                pageRequest.Orderings.Select(ordering => ordering.MapToDto()),
+                pageRequest.PageNumber,
+                pageRequest.PageSize
             );
         }
 
-        public static PageRequestModel<TModel> MapToModel<TModel>(PageRequestDto request)
+        public static PageRequestModel<TModel> MapToModel<TModel>(PageRequestDto pageRequest)
         {
             return new PageRequestModel<TModel>(
-                request.Filters.Select(filter => filter.ToLinqExpression<TModel, bool>()),
-                request.Orderings.Select(ordering => ordering.MapToModel<TModel>()),
-                request.PageNumber,
-                request.PageSize
+                pageRequest.Filters.Select(filter => filter.ToLinqExpression<TModel, bool>()),
+                pageRequest.Orderings.Select(ordering => ordering.MapToModel<TModel>()),
+                pageRequest.PageNumber,
+                pageRequest.PageSize
             );
+        }
+
+        public static string SerializePageRequestToJson(this PageRequestDto pageRequest)
+        {
+            var options = new JsonSerializerOptions().ConfigureRemoteLinq();
+            return JsonSerializer.Serialize(pageRequest, options);
+        }
+
+        public static PageRequestDto? DeserializePageRequestFromJson(this string json)
+        {
+            var options = new JsonSerializerOptions().ConfigureRemoteLinq();
+            return JsonSerializer.Deserialize<PageRequestDto>(json, options);
         }
     }
 }

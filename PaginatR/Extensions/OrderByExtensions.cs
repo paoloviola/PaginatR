@@ -1,6 +1,8 @@
 ﻿using PaginatR.Dtos;
 using PaginatR.Models;
 using Remote.Linq;
+using Remote.Linq.Text.Json;
+using System.Text.Json;
 
 namespace PaginatR.Extensions
 {
@@ -20,6 +22,18 @@ namespace PaginatR.Extensions
                 orderBy.Property.ToLinqExpression<TModel, object>(),
                 orderBy.Direction
             );
+        }
+
+        public static string SerializeOrderByToJson(this OrderByDto orderBy)
+        {
+            var options = new JsonSerializerOptions().ConfigureRemoteLinq();
+            return JsonSerializer.Serialize(orderBy, options);
+        }
+
+        public static OrderByDto? DeserializeOrderByFromJson(this string json)
+        {
+            var options = new JsonSerializerOptions().ConfigureRemoteLinq();
+            return JsonSerializer.Deserialize<OrderByDto>(json, options);
         }
     }
 }
