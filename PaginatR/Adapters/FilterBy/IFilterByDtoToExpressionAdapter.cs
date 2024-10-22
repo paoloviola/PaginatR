@@ -2,9 +2,9 @@
 using System;
 using System.Linq.Expressions;
 
-namespace PaginatR.Adapters
+namespace PaginatR.Adapters.FilterBy
 {
-    public interface IFilterByAdapter
+    public interface IFilterByDtoToExpressionAdapter
     {
         Expression<Func<TModel, bool>> ConvertToExpression<TModel>(FilterByDto filterBy);
     }

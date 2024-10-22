@@ -1,24 +1,26 @@
-﻿using PaginatR.Dtos;
+﻿using PaginatR.Adapters.FilterBy;
+using PaginatR.Adapters.OrderBy;
+using PaginatR.Dtos;
 using PaginatR.Models;
 using System.Linq;
 
-namespace PaginatR.Adapters
+namespace PaginatR.Adapters.PageRequest
 {
-    public class PageRequestAdapter : IPageRequestAdapter
+    public class PageRequestDtoToModelAdapter : IPageRequestDtoToModelAdapter
     {
-        private readonly IFilterByAdapter _filterByAdapter;
-        private readonly IOrderByAdapter _orderByAdapter;
+        private readonly IFilterByDtoToExpressionAdapter _filterByAdapter;
+        private readonly IOrderByDtoToModelAdapter _orderByAdapter;
 
-        public PageRequestAdapter(
-            IFilterByAdapter filterByAdapter,
-            IOrderByAdapter orderByAdapter)
+        public PageRequestDtoToModelAdapter(
+            IFilterByDtoToExpressionAdapter filterByAdapter,
+            IOrderByDtoToModelAdapter orderByAdapter)
         {
             _filterByAdapter = filterByAdapter;
             _orderByAdapter = orderByAdapter;
         }
 
-        public PageRequestAdapter()
-            : this(new FilterByAdapter(), new OrderByAdapter())
+        public PageRequestDtoToModelAdapter()
+            : this(new FilterByDtoToExpressionAdapter(), new OrderByDtoToModelAdapter())
         {
         }
 

@@ -1,10 +1,10 @@
-﻿using PaginatR.Adapters;
+﻿using PaginatR.Adapters.OrderBy;
 using PaginatR.Dtos;
 using PaginatR.Enums;
 using PaginatR.Models;
 using PaginatR.Tests.Models;
 
-namespace PaginatR.Tests.Adapters;
+namespace PaginatR.Tests.Adapters.OrderBy;
 
 [TestFixture]
 public class OrderByDtoToModelAdapterTests
@@ -15,7 +15,7 @@ public class OrderByDtoToModelAdapterTests
         // Arrange
         var property = $"{nameof(BookModel.Author)}.{nameof(AuthorModel.Name)}";
 
-        var adapter = new OrderByAdapter();
+        var adapter = new OrderByDtoToModelAdapter();
         var inputDto = new OrderByDto(property, OrderDirection.Ascending);
         var expected = new OrderByModel<BookModel>(model => model.Author.Name, OrderDirection.Ascending);
 
@@ -33,7 +33,7 @@ public class OrderByDtoToModelAdapterTests
         // Arrange
         var property = $"{nameof(BookModel.Reviews)}";
 
-        var adapter = new OrderByAdapter();
+        var adapter = new OrderByDtoToModelAdapter();
         var inputDto = new OrderByDto(property, OrderDirection.Ascending);
         var expected = new OrderByModel<BookModel>(model => model.Reviews, OrderDirection.Ascending);
 

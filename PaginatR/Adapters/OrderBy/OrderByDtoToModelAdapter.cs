@@ -4,17 +4,17 @@ using PaginatR.Dtos;
 using PaginatR.Models;
 using PaginatR.Extensions;
 
-namespace PaginatR.Adapters
+namespace PaginatR.Adapters.OrderBy
 {
-    internal class OrderByAdapter : IOrderByAdapter
+    internal class OrderByDtoToModelAdapter : IOrderByDtoToModelAdapter
     {
         public OrderByModel<TModel> ConvertToModel<TModel>(OrderByDto orderBy)
         {
-            var property = ToOrderExpression<TModel>(orderBy.Property);
+            var property = GetExpressionOfPropertyName<TModel>(orderBy.Property);
             return new OrderByModel<TModel>(property, orderBy.Direction);
         }
 
-        private static Expression<Func<TModel, object>> ToOrderExpression<TModel>(string property)
+        private static Expression<Func<TModel, object>> GetExpressionOfPropertyName<TModel>(string property)
         {
             var parameter = Expression.Parameter(typeof(TModel), "model");
             Expression propertyExpression = property.ToPropertyExpression(parameter);

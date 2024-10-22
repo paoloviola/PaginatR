@@ -32,5 +32,4 @@ namespace PaginatR.Models
         {
         }
     }
-
 }
