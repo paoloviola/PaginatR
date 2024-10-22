@@ -1,5 +1,6 @@
 ﻿using PaginatR.Enums;
 using Remote.Linq.Expressions;
+using System.Text.Json.Serialization;
 
 namespace PaginatR.Dtos
 {
@@ -9,6 +10,7 @@ namespace PaginatR.Dtos
 
         public OrderDirection Direction { get; set; }
 
+        [JsonConstructor]
         public OrderByDto(LambdaExpression property, OrderDirection direction)
         {
             Property = property;
