@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Text.Json.Serialization;
 
 namespace PaginatR.Dtos
 {
@@ -8,6 +9,7 @@ namespace PaginatR.Dtos
 
         public long TotalCount { get; set; }
 
+        [JsonConstructor]
         public PageResultDto(IEnumerable<TModel> content, long totalCount)
         {
             Content = content;
