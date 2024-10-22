@@ -19,7 +19,7 @@ namespace PaginatR.Extensions
             );
         }
 
-        public static PageRequestModel<TModel> MapToModel<TModel>(PageRequestDto pageRequest)
+        public static PageRequestModel<TModel> MapToModel<TModel>(this PageRequestDto pageRequest)
         {
             return new PageRequestModel<TModel>(
                 pageRequest.Filters.Select(filter => filter.ToLinqExpression<TModel, bool>()),
