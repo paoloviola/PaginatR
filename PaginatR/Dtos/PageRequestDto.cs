@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using System.Text.Json.Serialization;
 
 namespace PaginatR.Dtos
 {
@@ -13,6 +14,7 @@ namespace PaginatR.Dtos
 
         public int PageSize { get; set; }
 
+        [JsonConstructor]
         public PageRequestDto(
             IEnumerable<FilterByDto> filters,
             IEnumerable<OrderByDto> orderings,

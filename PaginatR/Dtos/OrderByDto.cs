@@ -1,4 +1,5 @@
 ﻿using PaginatR.Enums;
+using System.Text.Json.Serialization;
 
 namespace PaginatR.Dtos
 {
@@ -8,6 +9,7 @@ namespace PaginatR.Dtos
 
         public OrderDirection Direction { get; set; }
 
+        [JsonConstructor]
         public OrderByDto(string property, OrderDirection direction)
         {
             Property = property;

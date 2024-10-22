@@ -1,4 +1,5 @@
 ﻿using PaginatR.Enums;
+using System.Text.Json.Serialization;
 
 namespace PaginatR.Dtos
 {
@@ -10,6 +11,7 @@ namespace PaginatR.Dtos
 
         public object? Value { get; set; }
 
+        [JsonConstructor]
         public FilterByDto(
             string property,
             FilterOperation operation,
