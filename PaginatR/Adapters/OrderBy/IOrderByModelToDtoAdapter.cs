@@ -3,7 +3,7 @@ using PaginatR.Models;
 
 namespace PaginatR.Adapters.OrderBy
 {
-    internal interface IOrderByModelToDtoAdapter
+    public interface IOrderByModelToDtoAdapter
     {
         OrderByDto ConvertToDto<TModel>(OrderByModel<TModel> orderBy);
     }
