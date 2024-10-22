@@ -6,7 +6,7 @@ using System.Linq;
 
 namespace PaginatR.Adapters.PageRequest
 {
-    internal class PageRequestModelToDtoAdapter : IPageRequestModelToDtoAdapter
+    public class PageRequestModelToDtoAdapter : IPageRequestModelToDtoAdapter
     {
         private readonly IFilterByExpressionToDtoAdapter _filterByAdapter;
         private readonly IOrderByModelToDtoAdapter _orderByAdapter;
